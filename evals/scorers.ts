@@ -4,6 +4,10 @@ export const ToolCallMatch: Scorer<any, {}> = async ({
   input,
   output,
   expected,
+}: {
+  input: any;
+  output: { role: string; tool_calls: { function?: { name: string } }[] };
+  expected: { tool_calls: { function?: { name: string } }[] };
 }) => {
   const score =
     output.role === 'assistant' &&

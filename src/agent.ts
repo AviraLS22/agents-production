@@ -10,7 +10,7 @@ const handleImageApprovalFlow = async (
   userMessage: string
 ) => {
   const lastMessage = history[history.length - 1]
-  const toolCall = lastMessage?.tool_calls?.[0]
+  const toolCall = (lastMessage as AIMessage & { tool_calls?: any[] })?.tool_calls?.[0]
 
   if (
     !toolCall ||

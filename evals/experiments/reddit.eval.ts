@@ -18,7 +18,10 @@ runEval('reddit', {
     runLLM({
       messages: [{ role: 'user', content: input }],
       tools: [redditToolDefinition],
-    }),
+    }).then((result) => ({
+      role: result.role,
+      tool_calls: result.tool_calls || [],
+    })),
   data: [
     {
       input: 'tell me something cool from reddit',

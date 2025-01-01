@@ -103,14 +103,14 @@ export const runEval = async <T = any>(
   const results = await Promise.all(
     data.map(async ({ input, expected, reference }) => {
       const results = await task(input)
-      let context: string | string[]
+      let context: string | string[] | undefined
       let output: string
 
-      if (results.context) {
-        context = results.context
-        output = results.response
+      if (results && typeof results === 'object' && 'context' in results) {
+        context = (results as any).context
+        output = (results as any).response
       } else {
-        output = results
+        output = results as any
       }
 
       const scores = await Promise.all(

@@ -18,7 +18,10 @@ runEval('generateImage', {
     runLLM({
       messages: [{ role: 'user', content: input }],
       tools: [generateImageToolDefinition],
-    }),
+    }).then((response) => ({
+      role: response.role,
+      tool_calls: response.tool_calls || [],
+    })),
   data: [
     {
       input: 'can you generate an image of a sunset',

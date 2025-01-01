@@ -24,11 +24,16 @@ const allTools = [
 ]
 
 runEval('allTools', {
-  task: (input) =>
-    runLLM({
+  task: async (input) => {
+    const response = await runLLM({
       messages: [{ role: 'user', content: input }],
       tools: allTools,
-    }),
+    });
+    return {
+      role: response.role,
+      tool_calls: response.tool_calls || [],
+    };
+  },
   data: [
     {
       input: 'tell me something interesting from reddit',

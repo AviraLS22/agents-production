@@ -18,7 +18,10 @@ runEval('dadJoke', {
     runLLM({
       messages: [{ role: 'user', content: input }],
       tools: [dadJokeToolDefinition],
-    }),
+    }).then(response => ({
+      role: response.role,
+      tool_calls: response.tool_calls || [],
+    })),
   data: [
     {
       input: 'tell me a dad joke',
