@@ -1,9 +1,9 @@
-import { runEval } from '../evalTools'
-import { runLLM } from '../../src/llm'
-import { ToolCallMatch } from '../scorers'
-import { generateImageToolDefinition } from '../../src/tools/generateImage'
+import { runEval } from '../evalTools'                                               // a utility function for running evaluations.
+import { runLLM } from '../../src/llm'                                              // the function we want to evaluate.
+import { ToolCallMatch } from '../scorers'                                         // a scorer for evaluating the results of the evaluation.
+import { generateImageToolDefinition } from '../../src/tools/generateImage'    // the tool we want to evaluate.
 
-const createToolCallMessage = (toolName: string) => ({
+const createToolCallMessage = (toolName: string) => ({                        // a utility function for creating a tool call message.
   role: 'assistant',
   tool_calls: [
     {
@@ -13,7 +13,7 @@ const createToolCallMessage = (toolName: string) => ({
   ],
 })
 
-runEval('generateImage', {
+runEval('generateImage', {                                                // run the evaluation                           
   task: (input) =>
     runLLM({
       messages: [{ role: 'user', content: input }],
@@ -24,9 +24,9 @@ runEval('generateImage', {
     })),
   data: [
     {
-      input: 'can you generate an image of a sunset',
+      input: 'can you generate an image of a sunset',                                                     // the data for the evaluation.
       expected: createToolCallMessage(generateImageToolDefinition.name),
     },
   ],
-  scorers: [ToolCallMatch],
+  scorers: [ToolCallMatch],                                                                              // the scorer for the evaluation.
 })

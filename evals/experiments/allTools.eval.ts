@@ -1,12 +1,12 @@
-import { runEval } from '../evalTools'
-import { runLLM } from '../../src/llm'
-import { ToolCallMatch } from '../scorers'
-import { redditToolDefinition } from '../../src/tools/reddit'
-import { generateImageToolDefinition } from '../../src/tools/generateImage'
-import { dadJokeToolDefinition } from '../../src/tools/dadJoke'
-import { movieSearchToolDefinition } from '../../src/tools/movieSearch'
+import { runEval } from '../evalTools'                                              // a utility function for running evaluations.
+import { runLLM } from '../../src/llm'                                                // the function we want to evaluate.
+import { ToolCallMatch } from '../scorers'                                            // the scorer for evaluating the results of the evaluation.                      
+import { redditToolDefinition } from '../../src/tools/reddit'                         // the tool we want to evaluate.
+import { generateImageToolDefinition } from '../../src/tools/generateImage'             // the tool we want to evaluate. 
+import { dadJokeToolDefinition } from '../../src/tools/dadJoke'                           // the tool we want to evaluate.
+import { movieSearchToolDefinition } from '../../src/tools/movieSearch'                   // the tool we want to evaluate.
 
-const createToolCallMessage = (toolName: string) => ({
+const createToolCallMessage = (toolName: string) => ({                                  // a utility function for creating a tool call message.
   role: 'assistant',
   tool_calls: [
     {
@@ -16,7 +16,7 @@ const createToolCallMessage = (toolName: string) => ({
   ],
 })
 
-const allTools = [
+const allTools = [                                                                 // an array of all the tools we want to evaluate.                        
   redditToolDefinition,
   generateImageToolDefinition,
   dadJokeToolDefinition,
@@ -24,7 +24,7 @@ const allTools = [
 ]
 
 runEval('allTools', {
-  task: async (input) => {
+  task: async (input) => {                                                    // run the evaluation                       
     const response = await runLLM({
       messages: [{ role: 'user', content: input }],
       tools: allTools,
@@ -36,11 +36,11 @@ runEval('allTools', {
   },
   data: [
     {
-      input: 'tell me something interesting from reddit',
+      input: 'tell me something interesting from reddit',                                     // the data for the evaluation.
       expected: createToolCallMessage(redditToolDefinition.name),
     },
     {
-      input: 'generate an image of a mountain landscape',
+      input: 'generate an image of a mountain landscape',                                                 
       expected: createToolCallMessage(generateImageToolDefinition.name),
     },
     {
@@ -52,5 +52,5 @@ runEval('allTools', {
       expected: createToolCallMessage(movieSearchToolDefinition.name),
     },
   ],
-  scorers: [ToolCallMatch],
+  scorers: [ToolCallMatch],                                                               // the scorer for the evaluation.
 })
