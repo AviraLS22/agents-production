@@ -41,7 +41,7 @@ const getDb = async () => {
 const calculateAvgScore = (runs: Run[]) => {
   const totalScores = runs.reduce((sum, run) => {
     const runAvg =
-      run.scores.reduce((sum, score) => sum + score.score, 0) /
+      run.scores.reduce((sum, score) => sum + (score.score ?? 0), 0) /
       run.scores.length
     return sum + runAvg
   }, 0)
